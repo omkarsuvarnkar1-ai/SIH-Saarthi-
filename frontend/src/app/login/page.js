@@ -1,13 +1,63 @@
 "use client";
 
+import "./login.css";
+
+import {
+  GraduationCap,
+  BriefcaseBusiness,
+  UsersRound,
+  Building2,
+  Check,
+  Mail,
+  LockKeyhole,
+  Eye,
+  EyeOff,
+  ArrowRight,
+  ArrowLeft,
+  ShieldCheck,
+} from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
+const roles = [
+  {
+    id: "student",
+    name: "Student",
+    description: "Build skills & discover opportunities",
+    icon: GraduationCap,
+    accent: "blue",
+  },
+  {
+    id: "industry",
+    name: "Industry",
+    description: "Find skilled & verified talent",
+    icon: BriefcaseBusiness,
+    accent: "purple",
+  },
+  {
+    id: "academician",
+    name: "Academician",
+    description: "Connect learning with industry",
+    icon: UsersRound,
+    accent: "teal",
+  },
+  {
+    id: "institution",
+    name: "Institution",
+    description: "Manage skills, placements & insights",
+    icon: Building2,
+    accent: "orange",
+  },
+];
 
 export default function LoginPage() {
   const router = useRouter();
 
+  const [selectedRole, setSelectedRole] = useState("student");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -15,11 +65,13 @@ export default function LoginPage() {
     setMessage("");
     setLoading(true);
 
-    const form = event.target;
+    const form = event.currentTarget;
 
     const data = {
       email: form.email.value,
       password: form.password.value,
+      role: selectedRole,
+      rememberMe,
     };
 
     try {
@@ -34,11 +86,10 @@ export default function LoginPage() {
       const result = await response.json();
 
       if (result.success) {
-        // Redirect to dashboard after successful login
         router.push("/dashboard");
         router.refresh();
       } else {
-        setMessage(result.message);
+        setMessage(result.message || "Invalid email or password.");
       }
     } catch (error) {
       console.error(error);
@@ -49,117 +100,230 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-12">
-      <div className="mx-auto grid max-w-5xl overflow-hidden rounded-3xl bg-white shadow-xl md:grid-cols-2">
+    <main className="login-page">
+      <div className="login-background-grid" />
+      <div className="login-glow login-glow-one" />
+      <div className="login-glow login-glow-two" />
 
-        {/* Left Side */}
-        <div className="hidden bg-blue-600 p-12 text-white md:flex md:flex-col md:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">SkillNet</h1>
+      <header className="login-navbar">
+        <a href="/" className="skillnet-logo" aria-label="SkillNet home">
+          <span>Skill</span><strong>Net</strong>
+        </a>
 
-            <h2 className="mt-16 text-4xl font-bold leading-tight">
-              Build skills.
+        <a href="/" className="back-home">
+          <ArrowLeft size={17} />
+          <span>Back to Home</span>
+        </a>
+      </header>
+
+      <section className="login-shell">
+        {/* LEFT BRAND PANEL */}
+        <aside className="login-visual">
+          <div className="visual-content">
+            <div className="welcome-pill">
+              <span className="welcome-star">✦</span>
+              Welcome to SkillNet
+            </div>
+
+            <h1>
+              Your skills.
               <br />
-              Find opportunities.
+              <span>Your journey.</span>
               <br />
-              Shape your future.
-            </h2>
+              Your future.
+            </h1>
 
-            <p className="mt-6 leading-7 text-blue-100">
-              Connect your academic journey with the skills and opportunities
-              demanded by industry.
+            <p className="visual-description">
+              Sign in to continue your journey and unlock a world of
+              opportunities.
             </p>
+
+            <div className="feature-list">
+              <div className="feature-item">
+                <div className="feature-icon blue">
+                  <GraduationCap size={19} />
+                </div>
+                <div>
+                  <h3>Personalized Learning Paths</h3>
+                  <p>AI-powered roadmap just for you</p>
+                </div>
+              </div>
+
+              <div className="feature-item">
+                <div className="feature-icon purple">
+                  <BriefcaseBusiness size={19} />
+                </div>
+                <div>
+                  <h3>Industry Connections</h3>
+                  <p>Connect with relevant opportunities</p>
+                </div>
+              </div>
+
+              <div className="feature-item">
+                <div className="feature-icon teal">
+                  <ShieldCheck size={19} />
+                </div>
+                <div>
+                  <h3>Skill Verification</h3>
+                  <p>Showcase your real-world skills</p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <p className="text-sm text-blue-100">
-            AI-powered skill development platform
-          </p>
-        </div>
+          <div className="orbit-system" aria-hidden="true">
+            <div className="orbit orbit-a" />
+            <div className="orbit orbit-b" />
+            <div className="orbit orbit-c" />
+            <span className="orbit-dot dot-blue" />
+            <span className="orbit-dot dot-purple" />
+            <span className="orbit-dot dot-orange" />
+            <div className="orbit-core">
+              <div className="orbit-core-inner">
+                <span>Skill</span><strong>Net</strong>
+              </div>
+            </div>
+          </div>
+        </aside>
 
-        {/* Right Side */}
-        <div className="p-8 sm:p-12">
-          <div className="mx-auto max-w-md">
+        {/* RIGHT LOGIN PANEL */}
+        <section className="login-card">
+          <div className="login-card-header">
+            <div className="card-eyebrow">WELCOME BACK</div>
+            <h2>Sign in to SkillNet</h2>
+            <p>Choose your role to continue</p>
+          </div>
 
-            <h2 className="text-3xl font-bold text-slate-900">
-              Welcome back
-            </h2>
+          <form onSubmit={handleSubmit} className="login-form">
+            <div className="role-heading">
+              <span>Select your role</span>
+              <span className="required-label">Required</span>
+            </div>
 
-            <p className="mt-2 text-slate-500">
-              Sign in to continue to your SkillNet account.
-            </p>
+            <div className="role-grid">
+              {roles.map((role) => {
+                const Icon = role.icon;
+                const isSelected = selectedRole === role.id;
 
-            <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+                return (
+                  <button
+                    key={role.id}
+                    type="button"
+                    className={`role-card ${isSelected ? "selected" : ""} role-${role.accent}`}
+                    onClick={() => {
+                      setSelectedRole(role.id);
+                      setMessage("");
+                    }}
+                    aria-pressed={isSelected}
+                  >
+                    <div className="role-icon">
+                      <Icon size={21} strokeWidth={2.2} />
+                    </div>
 
-              {/* Email */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  Email address
-                </label>
+                    <div className="role-copy">
+                      <span className="role-name">{role.name}</span>
+                      <span className="role-description">
+                        {role.description}
+                      </span>
+                    </div>
 
+                    {isSelected && (
+                      <span className="role-check">
+                        <Check size={14} strokeWidth={3} />
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="field-group">
+              <label htmlFor="email">Email address</label>
+              <div className="input-wrapper">
+                <Mail className="input-icon" size={19} />
                 <input
+                  id="email"
                   name="email"
                   type="email"
                   placeholder="you@example.com"
+                  autoComplete="email"
                   required
-                  className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
-
-              {/* Password */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  Password
-                </label>
-
-                <input
-                  name="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  required
-                  className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-
-              {/* Error Message */}
-              {message && (
-                <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-700">
-                  {message}
-                </div>
-              )}
-
-              {/* Login Button */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {loading ? "Signing In..." : "Sign In"}
-              </button>
-
-            </form>
-
-            <p className="mt-8 text-center text-sm text-slate-500">
-              Don't have an account?{" "}
-              <a
-                href="/signup"
-                className="font-semibold text-blue-600 hover:text-blue-700"
-              >
-                Create one
-              </a>
-            </p>
-
-            <div className="mt-6 text-center">
-              <a
-                href="/"
-                className="text-sm font-medium text-slate-500 hover:text-blue-600"
-              >
-                ← Back to SkillNet
-              </a>
             </div>
 
+            <div className="field-group">
+              <label htmlFor="password">Password</label>
+              <div className="input-wrapper">
+                <LockKeyhole className="input-icon" size={19} />
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  autoComplete="current-password"
+                  required
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword((value) => !value)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+                </button>
+              </div>
+            </div>
+
+            <div className="form-options">
+              <label className="remember-option">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(event) => setRememberMe(event.target.checked)}
+                />
+                <span className="custom-checkbox">
+                  {rememberMe && <Check size={12} strokeWidth={3} />}
+                </span>
+                <span>Remember me</span>
+              </label>
+
+              <a href="/forgot-password">Forgot password?</a>
+            </div>
+
+            {message && (
+              <div className="login-error" role="alert">
+                {message}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="login-submit"
+              disabled={loading}
+            >
+              <span>{loading ? "Signing In..." : "Sign In"}</span>
+              {!loading && <ArrowRight size={20} />}
+            </button>
+
+            <div className="signup-row">
+              <span>Don&apos;t have an account?</span>
+              <a href="/signup">Create one</a>
+            </div>
+          </form>
+
+          <div className="secure-note">
+            <ShieldCheck size={15} />
+            <span>Your account and data are securely protected</span>
           </div>
-        </div>
-      </div>
+        </section>
+      </section>
+
+      <footer className="login-footer">
+        <span>© {new Date().getFullYear()} SkillNet</span>
+        <span className="footer-dot">•</span>
+        <span>Connecting Skills, Academia &amp; Industry</span>
+      </footer>
     </main>
   );
 }
