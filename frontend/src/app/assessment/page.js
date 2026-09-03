@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import "./assessment.css";
 
 export default function AssessmentPage() {
   const router = useRouter();
@@ -9,8 +10,7 @@ export default function AssessmentPage() {
   const [questions, setQuestions] = useState([]);
   const [roleName, setRoleName] = useState("");
 
-  const [currentQuestion, setCurrentQuestion] =
-    useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
 
   const [answers, setAnswers] = useState({});
 
@@ -136,10 +136,14 @@ export default function AssessmentPage() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50">
-        <p className="text-slate-600">
-          Loading assessment...
-        </p>
+      <main className="assessment-loading">
+        <div className="loading-content">
+          <div className="loading-spinner"></div>
+
+          <p className="loading-text">
+            Loading assessment...
+          </p>
+        </div>
       </main>
     );
   }
@@ -150,22 +154,27 @@ export default function AssessmentPage() {
 
   if (error) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
-        <div className="w-full max-w-lg rounded-2xl border bg-white p-8 text-center shadow-sm">
+      <main className="assessment-loading">
+        <div className="assessment-state">
 
-          <h1 className="text-xl font-bold text-slate-900">
+          <div className="state-icon">
+            !
+          </div>
+
+          <h1 className="state-title">
             Unable to start assessment
           </h1>
 
-          <p className="mt-3 text-sm text-slate-600">
+          <p className="state-message">
             {error}
           </p>
 
           <button
+            type="button"
             onClick={() =>
               router.push("/skills")
             }
-            className="mt-6 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700"
+            className="state-button"
           >
             Back to Skills
           </button>
@@ -181,24 +190,29 @@ export default function AssessmentPage() {
 
   if (questions.length === 0) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
+      <main className="assessment-loading">
 
-        <div className="w-full max-w-lg rounded-2xl border bg-white p-8 text-center shadow-sm">
+        <div className="assessment-state">
 
-          <h1 className="text-xl font-bold text-slate-900">
+          <div className="state-icon">
+            ?
+          </div>
+
+          <h1 className="state-title">
             No assessment questions available
           </h1>
 
-          <p className="mt-3 text-sm text-slate-600">
+          <p className="state-message">
             There are currently no questions
             available for your selected skills.
           </p>
 
           <button
+            type="button"
             onClick={() =>
               router.push("/skills")
             }
-            className="mt-6 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700"
+            className="state-button"
           >
             Back to Skills
           </button>
@@ -229,27 +243,27 @@ export default function AssessmentPage() {
   // =====================================================
 
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="assessment-page">
 
       {/* =================================================
           HEADER
       ================================================= */}
 
-      <header className="border-b bg-white">
+      <header className="assessment-header">
 
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
+        <div className="assessment-header-inner">
 
           <button
             type="button"
             onClick={() =>
               router.push("/dashboard")
             }
-            className="text-2xl font-bold text-blue-600"
+            className="assessment-logo"
           >
             SkillNet
           </button>
 
-          <span className="text-sm text-slate-500">
+          <span className="assessment-header-label">
             Skill Assessment
           </span>
 
@@ -261,21 +275,23 @@ export default function AssessmentPage() {
           MAIN
       ================================================= */}
 
-      <section className="mx-auto max-w-3xl px-6 py-10">
+      <section className="assessment-container">
 
-        {/* ROLE */}
+        {/* =================================================
+            INTRO
+        ================================================= */}
 
-        <div className="mb-6">
+        <div className="assessment-intro">
 
-          <p className="text-sm font-semibold text-blue-600">
+          <p className="assessment-eyebrow">
             ASSESSMENT
           </p>
 
-          <h1 className="mt-2 text-3xl font-bold text-slate-900">
+          <h1 className="assessment-title">
             {roleName} Skill Assessment
           </h1>
 
-          <p className="mt-2 text-slate-600">
+          <p className="assessment-description">
             Answer each question based on what
             you currently know.
           </p>
@@ -286,25 +302,25 @@ export default function AssessmentPage() {
             PROGRESS
         ================================================= */}
 
-        <div className="mb-6">
+        <div className="assessment-progress">
 
-          <div className="mb-2 flex items-center justify-between text-sm">
+          <div className="progress-info">
 
-            <span className="font-medium text-slate-700">
+            <span className="progress-question">
               Question {currentQuestion + 1} of{" "}
               {questions.length}
             </span>
 
-            <span className="text-slate-500">
+            <span className="progress-percent">
               {Math.round(progress)}%
             </span>
 
           </div>
 
-          <div className="h-2 overflow-hidden rounded-full bg-slate-200">
+          <div className="progress-track">
 
             <div
-              className="h-full rounded-full bg-blue-600 transition-all"
+              className="progress-fill"
               style={{
                 width: `${progress}%`,
               }}
@@ -318,17 +334,20 @@ export default function AssessmentPage() {
             QUESTION CARD
         ================================================= */}
 
-        <section className="rounded-2xl border bg-white p-6 shadow-sm">
+        <section
+          className="question-card"
+          key={question.question_id}
+        >
 
           {/* Skill + Difficulty */}
 
-          <div className="mb-5 flex flex-wrap gap-2">
+          <div className="question-badges">
 
-            <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+            <span className="skill-badge">
               {question.skill_name}
             </span>
 
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+            <span className="difficulty-badge">
               {question.difficulty}
             </span>
 
@@ -336,7 +355,7 @@ export default function AssessmentPage() {
 
           {/* Question */}
 
-          <h2 className="text-lg font-semibold leading-7 text-slate-900">
+          <h2 className="question-text">
             {question.question_text}
           </h2>
 
@@ -344,7 +363,7 @@ export default function AssessmentPage() {
 
           {question.concepts_tested &&
             question.concepts_tested.length > 0 && (
-              <p className="mt-3 text-xs text-slate-500">
+              <p className="concepts-text">
                 Concepts tested:{" "}
                 {question.concepts_tested.join(
                   ", "
@@ -356,7 +375,7 @@ export default function AssessmentPage() {
               OPTIONS
           ================================================= */}
 
-          <div className="mt-7 space-y-3">
+          <div className="options-container">
 
             {[
               ["A", question.option_a],
@@ -375,24 +394,18 @@ export default function AssessmentPage() {
                   onClick={() =>
                     handleAnswer(letter)
                   }
-                  className={`flex w-full items-start gap-4 rounded-xl border p-4 text-left transition ${
+                  className={`answer-option ${
                     isSelected
-                      ? "border-blue-600 bg-blue-50"
-                      : "border-slate-200 bg-white hover:border-blue-300 hover:bg-slate-50"
+                      ? "selected"
+                      : ""
                   }`}
                 >
 
-                  <span
-                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-                      isSelected
-                        ? "bg-blue-600 text-white"
-                        : "bg-slate-100 text-slate-700"
-                    }`}
-                  >
+                  <span className="option-letter">
                     {letter}
                   </span>
 
-                  <span className="pt-1 text-sm leading-6 text-slate-700">
+                  <span className="option-text">
                     {text}
                   </span>
 
@@ -408,13 +421,13 @@ export default function AssessmentPage() {
             NAVIGATION
         ================================================= */}
 
-        <div className="mt-6 flex items-center justify-between">
+        <div className="assessment-navigation">
 
           <button
             type="button"
             onClick={handlePrevious}
             disabled={currentQuestion === 0}
-            className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+            className="previous-button"
           >
             Previous
           </button>
@@ -426,7 +439,7 @@ export default function AssessmentPage() {
               type="button"
               onClick={handleNext}
               disabled={!selectedAnswer}
-              className="rounded-xl bg-blue-600 px-7 py-3 font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-40"
+              className="next-button"
             >
               Next
             </button>
@@ -437,7 +450,7 @@ export default function AssessmentPage() {
               type="button"
               onClick={handleFinish}
               disabled={!selectedAnswer}
-              className="rounded-xl bg-green-600 px-7 py-3 font-semibold text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-40"
+              className="finish-button"
             >
               Finish Assessment
             </button>
