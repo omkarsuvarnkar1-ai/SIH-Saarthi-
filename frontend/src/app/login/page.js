@@ -1,329 +1,294 @@
 "use client";
 
-import "./login.css";
-
+import { useState } from "react";
 import {
-  GraduationCap,
+  ArrowLeft,
+  ArrowRight,
   BriefcaseBusiness,
-  UsersRound,
   Building2,
-  Check,
-  Mail,
-  LockKeyhole,
   Eye,
   EyeOff,
-  ArrowRight,
-  ArrowLeft,
+  GraduationCap,
+  LockKeyhole,
+  Mail,
   ShieldCheck,
+  Sparkles,
+  User,
+  UsersRound,
 } from "lucide-react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 
-const roles = [
-  {
-    id: "student",
-    name: "Student",
-    description: "Build skills & discover opportunities",
-    icon: GraduationCap,
-    accent: "blue",
-  },
-  {
-    id: "industry",
-    name: "Industry",
-    description: "Find skilled & verified talent",
-    icon: BriefcaseBusiness,
-    accent: "purple",
-  },
-  {
-    id: "academician",
-    name: "Academician",
-    description: "Connect learning with industry",
-    icon: UsersRound,
-    accent: "teal",
-  },
-  {
-    id: "institution",
-    name: "Institution",
-    description: "Manage skills, placements & insights",
-    icon: Building2,
-    accent: "orange",
-  },
-];
+import "./login.css";
+
+const STAR_LAYOUT = Array.from({ length: 55 }, (_, index) => ({
+  x: `${((index * 13.7 + 9.4) % 100).toFixed(2)}%`,
+  y: `${((index * 17.3 + 11.8) % 100).toFixed(2)}%`,
+  delay: `${((index * 0.63 + 0.18) % 5).toFixed(3)}s`,
+  size: `${(1 + ((index * 1.77) % 3)).toFixed(3)}px`,
+}));
 
 export default function LoginPage() {
-  const router = useRouter();
-
   const [selectedRole, setSelectedRole] = useState("student");
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  const roles = [
+    {
+      id: "student",
+      title: "Student",
+      description: "Build skills & discover opportunities",
+      icon: GraduationCap,
+      color: "blue",
+    },
+    {
+      id: "industry",
+      title: "Industry",
+      description: "Find skilled & verified talent",
+      icon: BriefcaseBusiness,
+      color: "industry",
+    },
+    {
+      id: "academician",
+      title: "Academician",
+      description: "Connect learning with industry",
+      icon: UsersRound,
+      color: "green",
+    },
+    {
+      id: "institution",
+      title: "Institution",
+      description: "Manage skills, placements & insights",
+      icon: Building2,
+      color: "orange",
+    },
+  ];
 
-    setMessage("");
-    setLoading(true);
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    const form = event.currentTarget;
-
-    const data = {
-      email: form.email.value,
-      password: form.password.value,
+    console.log({
       role: selectedRole,
       rememberMe,
-    };
+    });
 
-    try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        router.push("/dashboard");
-        router.refresh();
-      } else {
-        setMessage(result.message || "Invalid email or password.");
-      }
-    } catch (error) {
-      console.error(error);
-      setMessage("Unable to connect to the server.");
-    } finally {
-      setLoading(false);
-    }
-  }
+    // Add your authentication/API logic here
+  };
 
   return (
     <main className="login-page">
-      <div className="login-background-grid" />
-      <div className="login-glow login-glow-one" />
-      <div className="login-glow login-glow-two" />
+      <div className="background-glow glow-one"></div>
+      <div className="background-glow glow-two"></div>
+      <div className="background-glow glow-three"></div>
 
-      <header className="login-navbar">
-        <a href="/" className="skillnet-logo" aria-label="SkillNet home">
-          <span>Skill</span><strong>Net</strong>
-        </a>
+      <div className="stars">
+        {STAR_LAYOUT.map((star, index) => (
+          <span
+            key={index}
+            className="star"
+            style={{
+              "--x": star.x,
+              "--y": star.y,
+              "--delay": star.delay,
+              "--size": star.size,
+            }}
+          />
+        ))}
+      </div>
 
-        <a href="/" className="back-home">
-          <ArrowLeft size={17} />
+      <header className="top-header">
+        <div className="brand">
+          <span className="brand-skill">Skill</span>
+          <span className="brand-net">Net</span>
+        </div>
+
+        <button type="button" className="home-button">
+          <ArrowLeft size={19} strokeWidth={1.8} />
           <span>Back to Home</span>
-        </a>
+        </button>
       </header>
 
-      <section className="login-shell">
-        {/* LEFT BRAND PANEL */}
-        <aside className="login-visual">
-          <div className="visual-content">
-            <div className="welcome-pill">
-              <span className="welcome-star">✦</span>
-              Welcome to SkillNet
+      <section className="login-container">
+        <div className="hero-section">
+          <div className="welcome-pill">
+            <Sparkles size={16} strokeWidth={2} />
+            <span>Welcome back!</span>
+          </div>
+
+          <h1>
+            Your skills.
+            <br />
+            <span className="gradient-text">Your journey.</span>
+            <br />
+            <span className="purple-text">Your future.</span>
+          </h1>
+
+          <p className="hero-description">
+            Sign in to continue your journey and
+            <br />
+            unlock a world of opportunities.
+          </p>
+
+          <div className="feature-list">
+            <div className="feature-item">
+              <div className="feature-icon purple-icon">
+                <GraduationCap size={24} strokeWidth={2} />
+              </div>
+
+              <div>
+                <strong>Personalized Learning Paths</strong>
+                <span>AI-powered roadmap just for you</span>
+              </div>
             </div>
 
-            <h1>
-              Your skills.
-              <br />
-              <span>Your journey.</span>
-              <br />
-              Your future.
-            </h1>
-
-            <p className="visual-description">
-              Sign in to continue your journey and unlock a world of
-              opportunities.
-            </p>
-
-            <div className="feature-list">
-              <div className="feature-item">
-                <div className="feature-icon blue">
-                  <GraduationCap size={19} />
-                </div>
-                <div>
-                  <h3>Personalized Learning Paths</h3>
-                  <p>AI-powered roadmap just for you</p>
-                </div>
+            <div className="feature-item">
+              <div className="feature-icon blue-icon">
+                <BriefcaseBusiness size={23} strokeWidth={2} />
               </div>
 
-              <div className="feature-item">
-                <div className="feature-icon purple">
-                  <BriefcaseBusiness size={19} />
-                </div>
-                <div>
-                  <h3>Industry Connections</h3>
-                  <p>Connect with relevant opportunities</p>
-                </div>
+              <div>
+                <strong>Industry Connections</strong>
+                <span>Connect with top recruiters</span>
+              </div>
+            </div>
+
+            <div className="feature-item">
+              <div className="feature-icon green-icon">
+                <UsersRound size={24} strokeWidth={2} />
               </div>
 
-              <div className="feature-item">
-                <div className="feature-icon teal">
-                  <ShieldCheck size={19} />
-                </div>
-                <div>
-                  <h3>Skill Verification</h3>
-                  <p>Showcase your real-world skills</p>
-                </div>
+              <div>
+                <strong>Skill Verification</strong>
+                <span>Showcase your real-world skills</span>
               </div>
             </div>
           </div>
 
-          <div className="orbit-system" aria-hidden="true">
-            <div className="orbit orbit-a" />
-            <div className="orbit orbit-b" />
-            <div className="orbit orbit-c" />
-            <span className="orbit-dot dot-blue" />
-            <span className="orbit-dot dot-purple" />
-            <span className="orbit-dot dot-orange" />
-            <div className="orbit-core">
-              <div className="orbit-core-inner">
-                <span>Skill</span><strong>Net</strong>
+          <div className="orbit-system">
+            <div className="orbit orbit-one"></div>
+            <div className="orbit orbit-two"></div>
+            <div className="orbit orbit-three"></div>
+
+            <div className="orbit-dot dot-one"></div>
+            <div className="orbit-dot dot-two"></div>
+            <div className="orbit-dot dot-three"></div>
+            <div className="orbit-dot dot-four"></div>
+
+            <div className="skillnet-core">
+              <div className="core-content">
+                <div className="core-logo">
+                  <span>Skill</span>
+                  <b>Net</b>
+                </div>
+
+                <p>Connected Skills</p>
+                <p>Ecosystem</p>
               </div>
             </div>
           </div>
-        </aside>
+        </div>
 
-        {/* RIGHT LOGIN PANEL */}
-        <section className="login-card">
-          <div className="login-card-header">
-            <div className="card-eyebrow">WELCOME BACK</div>
+        <div className="login-card">
+          <div className="card-heading">
             <h2>Sign in to SkillNet</h2>
             <p>Choose your role to continue</p>
           </div>
 
+          <div className="roles-grid">
+            {roles.map((role) => {
+              const Icon = role.icon;
+
+              return (
+                <button
+                  key={role.id}
+                  type="button"
+                  className={`role-card ${selectedRole === role.id ? "selected" : ""}`}
+                  onClick={() => setSelectedRole(role.id)}
+                >
+                  <div className={`role-icon ${role.color}`}>
+                    <Icon size={34} strokeWidth={1.8} />
+                  </div>
+
+                  <div className="role-content">
+                    <h3>{role.title}</h3>
+                    <p>{role.description}</p>
+                  </div>
+
+                  {selectedRole === role.id && <div className="selected-check">✓</div>}
+                </button>
+              );
+            })}
+          </div>
+
           <form onSubmit={handleSubmit} className="login-form">
-            <div className="role-heading">
-              <span>Select your role</span>
-              <span className="required-label">Required</span>
-            </div>
-
-            <div className="role-grid">
-              {roles.map((role) => {
-                const Icon = role.icon;
-                const isSelected = selectedRole === role.id;
-
-                return (
-                  <button
-                    key={role.id}
-                    type="button"
-                    className={`role-card ${isSelected ? "selected" : ""} role-${role.accent}`}
-                    onClick={() => {
-                      setSelectedRole(role.id);
-                      setMessage("");
-                    }}
-                    aria-pressed={isSelected}
-                  >
-                    <div className="role-icon">
-                      <Icon size={21} strokeWidth={2.2} />
-                    </div>
-
-                    <div className="role-copy">
-                      <span className="role-name">{role.name}</span>
-                      <span className="role-description">
-                        {role.description}
-                      </span>
-                    </div>
-
-                    {isSelected && (
-                      <span className="role-check">
-                        <Check size={14} strokeWidth={3} />
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="field-group">
+            <div className="input-group">
               <label htmlFor="email">Email address</label>
+
               <div className="input-wrapper">
-                <Mail className="input-icon" size={19} />
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  autoComplete="email"
-                  required
-                />
+                <Mail className="input-icon" size={21} strokeWidth={1.8} />
+
+                <input id="email" type="email" placeholder="you@example.com" required />
+
+                <User className="input-user" size={21} strokeWidth={1.8} />
               </div>
             </div>
 
-            <div className="field-group">
+            <div className="input-group">
               <label htmlFor="password">Password</label>
+
               <div className="input-wrapper">
-                <LockKeyhole className="input-icon" size={19} />
+                <LockKeyhole className="input-icon" size={21} strokeWidth={1.8} />
+
                 <input
                   id="password"
-                  name="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  autoComplete="current-password"
                   required
                 />
+
                 <button
                   type="button"
                   className="password-toggle"
-                  onClick={() => setShowPassword((value) => !value)}
+                  onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+                  {showPassword ? <EyeOff size={21} strokeWidth={1.8} /> : <Eye size={21} strokeWidth={1.8} />}
                 </button>
               </div>
             </div>
 
             <div className="form-options">
-              <label className="remember-option">
+              <label className="remember">
                 <input
                   type="checkbox"
                   checked={rememberMe}
-                  onChange={(event) => setRememberMe(event.target.checked)}
+                  onChange={(e) => setRememberMe(e.target.checked)}
                 />
-                <span className="custom-checkbox">
-                  {rememberMe && <Check size={12} strokeWidth={3} />}
-                </span>
+
+                <span className="custom-checkbox"></span>
                 <span>Remember me</span>
               </label>
 
-              <a href="/forgot-password">Forgot password?</a>
+              <button type="button" className="forgot-password">
+                Forgot password?
+              </button>
             </div>
 
-            {message && (
-              <div className="login-error" role="alert">
-                {message}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              className="login-submit"
-              disabled={loading}
-            >
-              <span>{loading ? "Signing In..." : "Sign In"}</span>
-              {!loading && <ArrowRight size={20} />}
+            <button type="submit" className="sign-in-button">
+              <span>Sign In</span>
+              <ArrowRight className="button-arrow" size={25} strokeWidth={2} />
             </button>
-
-            <div className="signup-row">
-              <span>Don&apos;t have an account?</span>
-              <a href="/signup">Create one</a>
-            </div>
           </form>
 
-          <div className="secure-note">
-            <ShieldCheck size={15} />
-            <span>Your account and data are securely protected</span>
+          <div className="signup-text">
+            <span>Don’t have an account?</span>
+            <button type="button">Create one</button>
           </div>
-        </section>
-      </section>
 
-      <footer className="login-footer">
-        <span>© {new Date().getFullYear()} SkillNet</span>
-        <span className="footer-dot">•</span>
-        <span>Connecting Skills, Academia &amp; Industry</span>
-      </footer>
+          <div className="security-message">
+            <ShieldCheck className="security-icon" size={21} strokeWidth={1.8} />
+            <span>Your data is protected with enterprise-grade security</span>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
