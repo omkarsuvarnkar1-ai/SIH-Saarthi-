@@ -1,0 +1,1238 @@
+/* =========================================================
+   SKILLNET PROFILE
+   Premium Space / Blue / Purple Theme
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+.profile-page {
+  position: relative;
+  min-height: 100dvh;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(
+      circle at 8% 85%,
+      rgba(0, 91, 255, 0.18),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 92% 5%,
+      rgba(122, 31, 255, 0.22),
+      transparent 27%
+    ),
+    linear-gradient(
+      135deg,
+      #020a2c 0%,
+      #03103a 48%,
+      #02082b 100%
+    );
+
+  color: white;
+}
+
+
+/* =========================================================
+   SPACE BACKGROUND
+========================================================= */
+
+.space-stars {
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+
+  background-image:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.75) 1px,
+      transparent 1.4px
+    ),
+    radial-gradient(
+      circle,
+      rgba(0, 126, 255, 0.55) 1px,
+      transparent 1.5px
+    );
+
+  background-size:
+    95px 95px,
+    145px 145px;
+
+  opacity: 0.42;
+
+  animation:
+    starsMove 22s linear infinite;
+}
+
+@keyframes starsMove {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(95px);
+  }
+}
+
+
+/* =========================================================
+   BACKGROUND GLOWS
+========================================================= */
+
+.space-glow {
+  position: fixed;
+
+  width: 500px;
+  height: 500px;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  filter: blur(40px);
+
+  opacity: 0.5;
+}
+
+.glow-one {
+  left: -270px;
+  bottom: -240px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(0, 100, 255, 0.45),
+      transparent 70%
+    );
+}
+
+.glow-two {
+  right: -280px;
+  top: -280px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(117, 34, 255, 0.42),
+      transparent 70%
+    );
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.profile-header {
+  position: relative;
+  z-index: 20;
+
+  height: 68px;
+
+  border-bottom:
+    1px solid
+    rgba(93, 123, 255, 0.2);
+
+  background:
+    rgba(1, 8, 37, 0.76);
+
+  backdrop-filter:
+    blur(18px);
+}
+
+.profile-header-inner {
+  width: min(1450px, 92%);
+
+  height: 100%;
+
+  margin: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.skillnet-logo {
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #f7f9ff;
+
+  font-size: 30px;
+  font-weight: 850;
+
+  letter-spacing: -1.8px;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
+}
+
+.skillnet-logo span {
+  color: #087cff;
+}
+
+.skillnet-logo:hover {
+  transform: translateY(-1px);
+
+  filter:
+    drop-shadow(
+      0 0 15px
+      rgba(0, 122, 255, 0.5)
+    );
+}
+
+
+/* =========================================================
+   DASHBOARD BUTTON
+========================================================= */
+
+.dashboard-button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 10px 18px;
+
+  border:
+    1px solid
+    rgba(135, 147, 255, 0.4);
+
+  border-radius: 25px;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  color: #eef1ff;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    all 0.3s ease;
+}
+
+.dashboard-button:hover {
+  border-color: #357cff;
+
+  background:
+    rgba(35, 101, 255, 0.12);
+
+  box-shadow:
+    0 0 25px
+    rgba(0, 112, 255, 0.14);
+
+  transform:
+    translateY(-2px);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.profile-content {
+  position: relative;
+  z-index: 5;
+
+  width: min(930px, 90%);
+
+  margin: 0 auto;
+
+  padding:
+    30px 0 35px;
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.profile-heading {
+  margin-bottom: 20px;
+
+  animation:
+    headingIn
+    0.75s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+@keyframes headingIn {
+  from {
+    opacity: 0;
+    transform:
+      translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0);
+  }
+}
+
+
+.profile-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 7px 13px;
+
+  border:
+    1px solid
+    rgba(24, 112, 255, 0.65);
+
+  border-radius: 25px;
+
+  background:
+    rgba(20, 88, 255, 0.08);
+
+  color: #d8e2ff;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.9px;
+}
+
+.profile-badge svg {
+  color: #a25bff;
+}
+
+.profile-badge strong {
+  color: #1685ff;
+}
+
+
+.profile-heading h1 {
+  margin-top: 11px;
+
+  font-size:
+    clamp(35px, 4vw, 46px);
+
+  line-height: 1.05;
+
+  letter-spacing: -2px;
+
+  font-weight: 850;
+}
+
+.profile-heading h1 span {
+  background:
+    linear-gradient(
+      90deg,
+      #1685ff,
+      #7a2cff
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+}
+
+.profile-heading p {
+  margin-top: 9px;
+
+  color: #aab6d5;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 11px;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.profile-card {
+  position: relative;
+
+  padding:
+    19px 22px 20px;
+
+  border:
+    1px solid
+    rgba(131, 147, 200, 0.22);
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.985),
+      rgba(247, 249, 255, 0.985)
+    );
+
+  color: #071440;
+
+  box-shadow:
+    0 20px 55px
+    rgba(0, 0, 0, 0.23);
+
+  overflow: hidden;
+
+  animation:
+    cardIn
+    0.7s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+.education-card {
+  animation-delay: 0.1s;
+}
+
+.profile-card::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  top: 0;
+
+  height: 2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #087cff,
+      #4055ff,
+      #852cff
+    );
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(20px)
+      scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+/* =========================================================
+   CARD HEADING
+========================================================= */
+
+.card-heading {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  margin-bottom: 15px;
+}
+
+.card-icon {
+  width: 43px;
+  height: 43px;
+
+  flex: 0 0 43px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+}
+
+.blue-icon {
+  background:
+    linear-gradient(
+      145deg,
+      #e5efff,
+      #dce7ff
+    );
+
+  color: #126cff;
+}
+
+.green-icon {
+  background:
+    linear-gradient(
+      145deg,
+      #dff9f0,
+      #d7f5ec
+    );
+
+  color: #0ab58c;
+}
+
+.card-heading h2 {
+  font-size: 17px;
+
+  font-weight: 800;
+
+  letter-spacing: -0.3px;
+}
+
+.card-heading p {
+  margin-top: 2px;
+
+  color: #69799c;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.profile-grid {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  column-gap: 25px;
+
+  row-gap: 13px;
+}
+
+
+/* =========================================================
+   FIELDS
+========================================================= */
+
+.profile-field {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.profile-field label {
+  color: #14234e;
+
+  font-size: 11px;
+
+  font-weight: 750;
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.input-wrapper {
+  position: relative;
+
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+
+  border:
+    1px solid
+    #d8dfec;
+
+  border-radius: 8px;
+
+  background: #fff;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+
+.input-wrapper svg {
+  position: absolute;
+
+  left: 13px;
+
+  color: #7082a9;
+
+  pointer-events: none;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+  width: 100%;
+  height: 100%;
+
+  border: none;
+  outline: none;
+
+  padding:
+    0 13px 0 40px;
+
+  border-radius: inherit;
+
+  background: transparent;
+
+  color: #15234b;
+
+  font-family: inherit;
+
+  font-size: 12px;
+}
+
+.input-wrapper input::placeholder {
+  color: #8995ad;
+}
+
+.input-wrapper:hover {
+  border-color: #aab9d4;
+}
+
+.input-wrapper:focus-within {
+  border-color: #287cff;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(40, 124, 255, 0.09);
+
+  transform:
+    translateY(-1px);
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.select-wrapper select {
+  appearance: none;
+
+  cursor: pointer;
+}
+
+.select-wrapper > svg:last-child {
+  position: absolute;
+
+  right: 12px;
+  left: auto;
+
+  color: #66789e;
+}
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.profile-field textarea {
+  width: 100%;
+
+  min-height: 67px;
+
+  padding:
+    10px 13px;
+
+  resize: none;
+
+  border:
+    1px solid
+    #d8dfec;
+
+  border-radius: 8px;
+
+  outline: none;
+
+  background: #fff;
+
+  color: #15234b;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  line-height: 1.45;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.profile-field textarea::placeholder {
+  color: #8995ad;
+}
+
+.profile-field textarea:focus {
+  border-color: #287cff;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(40, 124, 255, 0.09);
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.profile-message {
+  min-height: 42px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding:
+    0 15px;
+
+  border-radius: 9px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  animation:
+    messageIn
+    0.35s
+    ease-out;
+}
+
+@keyframes messageIn {
+  from {
+    opacity: 0;
+    transform:
+      translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0);
+  }
+}
+
+.success-message {
+  border:
+    1px solid
+    rgba(0, 193, 170, 0.55);
+
+  background:
+    rgba(0, 180, 160, 0.08);
+
+  color: #00bda5;
+}
+
+.success-message svg {
+  padding: 3px;
+
+  border-radius: 50%;
+
+  background: #00d4b8;
+
+  color: white;
+}
+
+.error-message {
+  border:
+    1px solid
+    rgba(230, 70, 70, 0.35);
+
+  background:
+    rgba(230, 70, 70, 0.08);
+
+  color: #c83b3b;
+}
+
+
+/* =========================================================
+   ACTION ROW
+========================================================= */
+
+.profile-actions {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding-top: 2px;
+}
+
+
+/* =========================================================
+   SECURITY
+========================================================= */
+
+.security-note {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: #a7b4d4;
+
+  font-size: 11px;
+}
+
+.security-note svg {
+  color: #5d8dff;
+
+  filter:
+    drop-shadow(
+      0 0 7px
+      rgba(55, 116, 255, 0.4)
+    );
+}
+
+
+/* =========================================================
+   SAVE BUTTON
+========================================================= */
+
+.profile-save-button {
+  position: relative;
+
+  isolation: isolate;
+
+  overflow: hidden;
+
+  height: 48px;
+
+  min-width: 190px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  padding:
+    0 22px;
+
+  border: none;
+
+  border-radius: 25px;
+
+  background:
+    linear-gradient(
+      100deg,
+      #087cff 0%,
+      #3459ff 50%,
+      #8128ff 100%
+    );
+
+  color: white;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 30px
+    rgba(18, 101, 255, 0.3),
+
+    0 0 28px
+    rgba(114, 35, 255, 0.16);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    filter 0.3s ease;
+}
+
+.profile-save-button:hover {
+  transform:
+    translateY(-3px);
+
+  filter:
+    brightness(1.08);
+
+  box-shadow:
+    0 15px 38px
+    rgba(18, 101, 255, 0.42),
+
+    0 0 42px
+    rgba(114, 35, 255, 0.28);
+}
+
+.profile-save-button:active {
+  transform:
+    translateY(0)
+    scale(0.98);
+}
+
+.profile-save-button:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.7;
+}
+
+
+/* =========================================================
+   SAVE ICON
+========================================================= */
+
+.save-icon {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    rgba(0, 40, 170, 0.22);
+}
+
+
+/* =========================================================
+   BUTTON SHINE
+========================================================= */
+
+.button-shine {
+  position: absolute;
+
+  top: -80%;
+
+  left: -60%;
+
+  width: 35%;
+  height: 260%;
+
+  transform:
+    rotate(24deg);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.45),
+      transparent
+    );
+
+  animation:
+    buttonShine
+    3s
+    ease-in-out
+    infinite;
+
+  pointer-events: none;
+}
+
+@keyframes buttonShine {
+  0% {
+    left: -70%;
+  }
+
+  35% {
+    left: 140%;
+  }
+
+  100% {
+    left: 140%;
+  }
+}
+
+
+/* =========================================================
+   SPINNER
+========================================================= */
+
+.save-spinner {
+  width: 16px;
+  height: 16px;
+
+  border:
+    2px solid
+    rgba(255, 255, 255, 0.35);
+
+  border-top-color:
+    white;
+
+  border-radius: 50%;
+
+  animation:
+    spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.profile-loading {
+  min-height: 100dvh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  background:
+    #020a2c;
+
+  color: #b8c4e3;
+}
+
+.loading-orbit {
+  width: 65px;
+  height: 65px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  border:
+    3px solid
+    #157cff;
+
+  border-right-color:
+    #8b2cff;
+
+  box-shadow:
+    0 0 25px
+    rgba(28, 113, 255, 0.4);
+
+  animation:
+    spin 1.2s linear infinite;
+}
+
+.loading-core {
+  font-size: 9px;
+
+  animation:
+    spinReverse 1.2s linear infinite;
+}
+
+.loading-core span {
+  color: white;
+}
+
+.loading-core strong {
+  color: #087cff;
+}
+
+@keyframes spinReverse {
+  to {
+    transform:
+      rotate(-360deg);
+  }
+}
+
+
+/* =========================================================
+   DESKTOP COMPACT MODE
+========================================================= */
+
+@media (min-width: 901px) and (max-height: 850px) {
+
+  .profile-header {
+    height: 60px;
+  }
+
+  .profile-content {
+    padding-top: 21px;
+    padding-bottom: 22px;
+  }
+
+  .profile-heading {
+    margin-bottom: 14px;
+  }
+
+  .profile-heading h1 {
+    font-size: 38px;
+  }
+
+  .profile-heading p {
+    margin-top: 6px;
+  }
+
+  .profile-card {
+    padding:
+      15px 20px 16px;
+  }
+
+  .card-heading {
+    margin-bottom: 10px;
+  }
+
+  .card-icon {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+  }
+
+  .profile-grid {
+    row-gap: 9px;
+  }
+
+  .input-wrapper {
+    height: 38px;
+  }
+
+  .profile-field textarea {
+    min-height: 55px;
+  }
+
+  .profile-save-button {
+    height: 44px;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .profile-content {
+    width: min(700px, 92%);
+
+    padding-top: 38px;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: auto;
+  }
+
+  .desktop-break {
+    display: none;
+  }
+
+  .profile-actions {
+    align-items: stretch;
+
+    flex-direction: column-reverse;
+  }
+
+  .profile-save-button {
+    width: 100%;
+  }
+
+  .security-note {
+    justify-content: center;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+  .profile-header {
+    height: 62px;
+  }
+
+  .profile-header-inner {
+    width: 94%;
+  }
+
+  .skillnet-logo {
+    font-size: 25px;
+  }
+
+  .dashboard-button {
+    padding:
+      8px 11px;
+
+    font-size: 11px;
+  }
+
+  .profile-content {
+    width: 94%;
+
+    padding:
+      28px 0 35px;
+  }
+
+  .profile-heading h1 {
+    font-size: 33px;
+
+    letter-spacing:
+      -1.4px;
+  }
+
+  .profile-heading p {
+    font-size: 13px;
+  }
+
+  .profile-card {
+    padding:
+      17px 15px;
+  }
+
+  .card-heading h2 {
+    font-size: 16px;
+  }
+
+  .profile-grid {
+    gap: 12px;
+  }
+
+  .profile-save-button {
+    min-width: 0;
+  }
+
+}
