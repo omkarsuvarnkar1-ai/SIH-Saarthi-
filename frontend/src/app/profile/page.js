@@ -3,6 +3,24 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import {
+  ArrowLeft,
+  ArrowRight,
+  Building2,
+  CalendarDays,
+  Check,
+  ChevronDown,
+  GraduationCap,
+  LockKeyhole,
+  Save,
+  ShieldCheck,
+  Sparkles,
+  User,
+  Users,
+} from "lucide-react";
+
+import "./profile.css";
+
 export default function ProfilePage() {
   const router = useRouter();
 
@@ -19,10 +37,6 @@ export default function ProfilePage() {
     year_of_study: "",
     bio: "",
   });
-
-  // =====================================================
-  // LOAD EXISTING PROFILE
-  // =====================================================
 
   useEffect(() => {
     async function loadProfile() {
@@ -59,10 +73,6 @@ export default function ProfilePage() {
     loadProfile();
   }, [router]);
 
-  // =====================================================
-  // HANDLE INPUT CHANGES
-  // =====================================================
-
   function handleChange(event) {
     const { name, value } = event.target;
 
@@ -71,10 +81,6 @@ export default function ProfilePage() {
       [name]: value,
     }));
   }
-
-  // =====================================================
-  // SAVE PROFILE
-  // =====================================================
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -106,10 +112,6 @@ export default function ProfilePage() {
 
       setMessage("Profile saved successfully!");
 
-      // =================================================
-      // GO TO CAREER SELECTION
-      // =================================================
-
       setTimeout(() => {
         router.push("/career-selection");
       }, 1000);
@@ -120,317 +122,414 @@ export default function ProfilePage() {
     }
   }
 
-  // =====================================================
-  // LOADING SCREEN
-  // =====================================================
-
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50">
-        <p className="text-slate-600">
-          Loading your profile...
-        </p>
+      <main className="profile-loading">
+        <div className="loading-orbit">
+          <div className="loading-core">
+            <span>Skill</span>
+            <strong>Net</strong>
+          </div>
+        </div>
+
+        <p>Loading your profile...</p>
       </main>
     );
   }
 
-  // =====================================================
-  // PAGE
-  // =====================================================
-
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="profile-page">
+      {/* Background decoration */}
+      <div className="space-stars" />
+      <div className="space-glow glow-one" />
+      <div className="space-glow glow-two" />
 
-      {/* =================================================
+      {/* =====================================================
           HEADER
-      ================================================= */}
+      ===================================================== */}
 
-      <header className="border-b bg-white">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-
+      <header className="profile-header">
+        <div className="profile-header-inner">
           <button
             type="button"
             onClick={() => router.push("/dashboard")}
-            className="text-2xl font-bold text-blue-600"
+            className="skillnet-logo"
           >
-            SkillNet
+            Skill<span>Net</span>
           </button>
 
           <button
             type="button"
             onClick={() => router.push("/dashboard")}
-            className="text-sm font-medium text-slate-500 hover:text-blue-600"
+            className="dashboard-button"
           >
-            Back to Dashboard
+            <ArrowLeft size={17} />
+            <span>Back to Dashboard</span>
           </button>
-
         </div>
       </header>
 
-      {/* =================================================
-          MAIN CONTENT
-      ================================================= */}
+      {/* =====================================================
+          MAIN
+      ===================================================== */}
 
-      <section className="mx-auto max-w-4xl px-6 py-10">
+      <section className="profile-content">
 
         {/* Heading */}
 
-        <div className="mb-8">
+        <div className="profile-heading">
 
-          <p className="text-sm font-semibold text-blue-600">
-            PROFILE SETUP
-          </p>
+          <div className="profile-badge">
+            <User size={15} />
+            <span>PROFILE</span>
+            <strong>SETUP</strong>
+          </div>
 
-          <h1 className="mt-2 text-3xl font-bold text-slate-900">
-            Tell us about yourself
+          <h1>
+            Tell us about{" "}
+            <span>yourself</span>
           </h1>
 
-          <p className="mt-2 text-slate-600">
-            This information will help SkillNet understand your
-            background and personalize your skill development journey.
+          <p>
+            This information will help SkillNet understand your background
+            <br className="desktop-break" />
+            and personalize your skill development journey.
           </p>
 
         </div>
 
-        {/* =================================================
-            FORM
-        ================================================= */}
-
         <form
           onSubmit={handleSubmit}
-          className="space-y-8"
+          className="profile-form"
         >
 
           {/* =================================================
               PERSONAL INFORMATION
           ================================================= */}
 
-          <section className="rounded-2xl border bg-white p-6 shadow-sm">
+          <section className="profile-card personal-card">
 
-            <h2 className="text-xl font-bold text-slate-900">
-              Personal Information
-            </h2>
+            <div className="card-heading">
 
-            <p className="mt-1 text-sm text-slate-500">
-              Basic information about you.
-            </p>
-
-            <div className="mt-6 grid gap-5 md:grid-cols-2">
-
-              {/* Date of Birth */}
+              <div className="card-icon blue-icon">
+                <User size={25} />
+              </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <h2>Personal Information</h2>
+
+                <p>
+                  Basic information about you.
+                </p>
+              </div>
+
+            </div>
+
+            <div className="profile-grid">
+
+              {/* Date */}
+
+              <div className="profile-field">
+
+                <label htmlFor="date_of_birth">
                   Date of Birth
                 </label>
 
-                <input
-                  name="date_of_birth"
-                  type="date"
-                  value={form.date_of_birth}
-                  onChange={handleChange}
-                  className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                />
+                <div className="input-wrapper">
+
+                  <CalendarDays size={18} />
+
+                  <input
+                    id="date_of_birth"
+                    name="date_of_birth"
+                    type="date"
+                    value={form.date_of_birth}
+                    onChange={handleChange}
+                  />
+
+                </div>
+
               </div>
 
               {/* Gender */}
 
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+              <div className="profile-field">
+
+                <label htmlFor="gender">
                   Gender
                 </label>
 
-                <select
-                  name="gender"
-                  value={form.gender}
-                  onChange={handleChange}
-                  className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                >
-                  <option value="">
-                    Prefer not to say
-                  </option>
+                <div className="input-wrapper select-wrapper">
 
-                  <option value="Female">
-                    Female
-                  </option>
+                  <User size={18} />
 
-                  <option value="Male">
-                    Male
-                  </option>
+                  <select
+                    id="gender"
+                    name="gender"
+                    value={form.gender}
+                    onChange={handleChange}
+                  >
+                    <option value="">
+                      Prefer not to say
+                    </option>
 
-                  <option value="Other">
-                    Other
-                  </option>
-                </select>
+                    <option value="Female">
+                      Female
+                    </option>
+
+                    <option value="Male">
+                      Male
+                    </option>
+
+                    <option value="Other">
+                      Other
+                    </option>
+                  </select>
+
+                  <ChevronDown size={17} />
+                </div>
+
               </div>
 
-              {/* About You */}
+              {/* About */}
 
-              <div className="md:col-span-2">
+              <div className="profile-field full-width">
 
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="bio">
                   About You
                 </label>
 
                 <textarea
+                  id="bio"
                   name="bio"
                   value={form.bio}
                   onChange={handleChange}
-                  rows="4"
+                  rows={3}
                   placeholder="Tell us briefly about yourself, your interests, or what you want to learn..."
-                  className="w-full resize-none rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                 />
 
               </div>
 
             </div>
+
           </section>
+
 
           {/* =================================================
               EDUCATION
           ================================================= */}
 
-          <section className="rounded-2xl border bg-white p-6 shadow-sm">
+          <section className="profile-card education-card">
 
-            <h2 className="text-xl font-bold text-slate-900">
-              Education
-            </h2>
+            <div className="card-heading">
 
-            <p className="mt-1 text-sm text-slate-500">
-              Tell us about your current education.
-            </p>
+              <div className="card-icon green-icon">
+                <GraduationCap size={25} />
+              </div>
 
-            <div className="mt-6 grid gap-5 md:grid-cols-2">
+              <div>
+                <h2>Education</h2>
+
+                <p>
+                  Tell us about your current education.
+                </p>
+              </div>
+
+            </div>
+
+            <div className="profile-grid">
 
               {/* College */}
 
-              <div>
+              <div className="profile-field">
 
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="college">
                   College / Institution
                 </label>
 
-                <input
-                  name="college"
-                  type="text"
-                  value={form.college}
-                  onChange={handleChange}
-                  placeholder="Enter your college name"
-                  className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                />
+                <div className="input-wrapper">
+
+                  <Building2 size={18} />
+
+                  <input
+                    id="college"
+                    name="college"
+                    type="text"
+                    value={form.college}
+                    onChange={handleChange}
+                    placeholder="Enter your college name"
+                  />
+
+                </div>
 
               </div>
 
               {/* Course */}
 
-              <div>
+              <div className="profile-field">
 
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="course">
                   Course / Degree
                 </label>
 
-                <input
-                  name="course"
-                  type="text"
-                  value={form.course}
-                  onChange={handleChange}
-                  placeholder="e.g. B.Tech, B.Pharm, B.Arch"
-                  className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                />
+                <div className="input-wrapper">
+
+                  <GraduationCap size={18} />
+
+                  <input
+                    id="course"
+                    name="course"
+                    type="text"
+                    value={form.course}
+                    onChange={handleChange}
+                    placeholder="e.g. B.Tech, B.Pharm, B.Arch"
+                  />
+
+                </div>
 
               </div>
 
               {/* Specialization */}
 
-              <div>
+              <div className="profile-field">
 
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="specialization">
                   Specialization
                 </label>
 
-                <input
-                  name="specialization"
-                  type="text"
-                  value={form.specialization}
-                  onChange={handleChange}
-                  placeholder="e.g. AI & Data Science"
-                  className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                />
+                <div className="input-wrapper">
+
+                  <Sparkles size={18} />
+
+                  <input
+                    id="specialization"
+                    name="specialization"
+                    type="text"
+                    value={form.specialization}
+                    onChange={handleChange}
+                    placeholder="e.g. AI & Data Science"
+                  />
+
+                </div>
 
               </div>
 
-              {/* Year of Study */}
+              {/* Year */}
 
-              <div>
+              <div className="profile-field">
 
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="year_of_study">
                   Year of Study
                 </label>
 
-                <select
-                  name="year_of_study"
-                  value={form.year_of_study}
-                  onChange={handleChange}
-                  className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                >
+                <div className="input-wrapper select-wrapper">
 
-                  <option value="">
-                    Select year
-                  </option>
+                  <GraduationCap size={18} />
 
-                  <option value="1">
-                    1st Year
-                  </option>
+                  <select
+                    id="year_of_study"
+                    name="year_of_study"
+                    value={form.year_of_study}
+                    onChange={handleChange}
+                  >
+                    <option value="">
+                      Select year
+                    </option>
 
-                  <option value="2">
-                    2nd Year
-                  </option>
+                    <option value="1">
+                      1st Year
+                    </option>
 
-                  <option value="3">
-                    3rd Year
-                  </option>
+                    <option value="2">
+                      2nd Year
+                    </option>
 
-                  <option value="4">
-                    4th Year
-                  </option>
+                    <option value="3">
+                      3rd Year
+                    </option>
 
-                  <option value="5">
-                    5th Year
-                  </option>
+                    <option value="4">
+                      4th Year
+                    </option>
 
-                  <option value="6">
-                    6th Year
-                  </option>
+                    <option value="5">
+                      5th Year
+                    </option>
 
-                </select>
+                    <option value="6">
+                      6th Year
+                    </option>
+                  </select>
+
+                  <ChevronDown size={17} />
+
+                </div>
 
               </div>
 
             </div>
+
           </section>
+
 
           {/* =================================================
               MESSAGE
           ================================================= */}
 
           {message && (
-            <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 text-sm font-medium text-blue-700">
-              {message}
+            <div
+              className={
+                message.includes("successfully")
+                  ? "profile-message success-message"
+                  : "profile-message error-message"
+              }
+            >
+              <Check size={19} />
+              <span>{message}</span>
             </div>
           )}
 
+
           {/* =================================================
-              SAVE BUTTON
+              ACTION
           ================================================= */}
 
-          <div className="flex justify-end">
+          <div className="profile-actions">
+
+            <div className="security-note">
+
+              <ShieldCheck size={19} />
+
+              <span>
+                Your information is secure and confidential
+              </span>
+
+            </div>
 
             <button
               type="submit"
               disabled={saving}
-              className="rounded-xl bg-blue-600 px-8 py-3.5 font-semibold text-white shadow-sm hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+              className="profile-save-button"
             >
-              {saving ? "Saving..." : "Save Profile"}
+
+              <span className="save-icon">
+                {saving ? (
+                  <span className="save-spinner" />
+                ) : (
+                  <Save size={18} />
+                )}
+              </span>
+
+              <span>
+                {saving ? "Saving..." : "Save Profile"}
+              </span>
+
+              {!saving && (
+                <ArrowRight size={20} />
+              )}
+
+              <span className="button-shine" />
+
             </button>
 
           </div>
@@ -438,7 +537,6 @@ export default function ProfilePage() {
         </form>
 
       </section>
-
     </main>
   );
 }
