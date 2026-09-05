@@ -374,7 +374,9 @@ export default function Home() {
             <a href="/login" className="login-btn">
               Login
             </a>
-            <button className="get-started-btn">Get Started</button>
+           <a href="/signup" className="get-started-btn">
+           Get Started
+          </a>
           </div>
         </nav>
 
