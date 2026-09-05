@@ -370,14 +370,13 @@ export default function Home() {
             <a href="#platform">Platform</a>
           </div>
 
-         <div className="nav-actions">
-  <a href="/login" className="login-btn">
-    Login
-  </a>
-  <a href="/signup" className="get-started-btn">
-    Get Started
-  </a>
-</div>
+          <div className="nav-actions">
+            <a href="/login" className="login-btn">
+              Login
+            </a>
+            <button className="get-started-btn">Get Started</button>
+          </div>
+        </nav>
 
         <div className="hero-content container">
           <div className="hero-copy">
