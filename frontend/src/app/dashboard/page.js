@@ -9,9 +9,9 @@ const groups = [
   [
     "My development",
     [
-      ["skills", "skills", "My Skills", "/skills"],
+      ["skills", "skills", "My Skills", "/current-skills"],
       ["assessment", "assessment", "Skill Assessment", "/skill-assessment"],
-      ["gaps", "gap", "Skill Gap Analysis"],
+      ["gaps", "gap", "Skill Gap Analysis", "/assessment/result"],
       ["roadmap", "roadmap", "Learning Roadmap", "/career-selection"],
       ["programs", "book", "Learning Programs"],
     ],
@@ -20,10 +20,10 @@ const groups = [
     "Opportunities",
     [
       ["opportunities", "briefcase", "Internships & Projects"],
-      ["portfolio", "folder", "My Portfolio"],
+      ["portfolio", "folder", "My Portfolio", "/profile"],
     ],
   ],
-  ["Progress", [["progress", "chart", "My Progress"]]],
+  ["Progress", [["progress", "chart", "My Progress", "/assessment/result"]]],
   [
     "Account",
     [
