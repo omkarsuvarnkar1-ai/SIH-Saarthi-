@@ -1,8 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BriefcaseBusiness,
+  GraduationCap,
+  ShieldCheck,
+  Sparkles,
+  UsersRound,
+} from "lucide-react";
+import "./signup.css";
 
 export default function SignupPage() {
+  const router = useRouter();
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -35,8 +48,31 @@ export default function SignupPage() {
       const result = await response.json();
 
       if (result.success) {
-        setMessage("Account created successfully!");
-        form.reset();
+        setMessage("Account created successfully! Logging you in...");
+
+        try {
+          const loginRes = await fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: data.email,
+              password: data.password,
+            }),
+          });
+
+          if (loginRes.ok) {
+            setTimeout(() => {
+              router.push("/profile");
+            }, 800);
+            return;
+          }
+        } catch (e) {
+          console.error("Auto-login error:", e);
+        }
+
+        setTimeout(() => {
+          router.push("/login");
+        }, 1000);
       } else {
         setMessage(result.message);
       }
@@ -49,204 +85,153 @@ export default function SignupPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-12">
-      <div className="mx-auto grid max-w-5xl overflow-hidden rounded-3xl bg-white shadow-xl md:grid-cols-2">
+    <main className="signup-page">
+      <div className="signup-hero-grid" />
+      <div className="signup-glow signup-glow-one" />
+      <div className="signup-glow signup-glow-two" />
 
-        {/* Left side */}
-        <div className="hidden bg-blue-600 p-12 text-white md:flex md:flex-col md:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">SkillNet</h1>
+      <header className="signup-header">
+        <Link href="/" className="signup-logo">
+          Skill<span>Net</span>
+        </Link>
 
-            <h2 className="mt-16 text-4xl font-bold leading-tight">
-              Start building
-              <br />
-              your career today.
-            </h2>
+        <Link href="/" className="signup-home-btn">
+          <ArrowLeft size={18} strokeWidth={2} />
+          Back to SkillNet
+        </Link>
+      </header>
 
-            <p className="mt-6 leading-7 text-blue-100">
-              Create your profile and let SkillNet connect your skills with
-              learning opportunities, internships, and industry requirements.
-            </p>
+      <section className="signup-shell">
+        <div className="signup-copy">
+          <div className="signup-eyebrow">
+            <Sparkles size={14} strokeWidth={2.2} />
+            Welcome to SkillNet
           </div>
 
-          <p className="text-sm text-blue-100">
-            AI-powered skill development platform
+          <h1>
+            Your skills.
+            <br />
+            <span>Your journey.</span>
+            <br />
+            <em>Your future.</em>
+          </h1>
+
+          <p>
+            Create your profile to unlock a world of learning opportunities,
+            career guidance, and industry connections.
           </p>
+
+          <div className="signup-benefits">
+            <div className="signup-benefit"><span className="signup-benefit-icon is-violet"><GraduationCap size={23} /></span><span><strong>Personalized Learning Paths</strong>AI-powered roadmap made for you</span></div>
+            <div className="signup-benefit"><span className="signup-benefit-icon is-blue"><BriefcaseBusiness size={22} /></span><span><strong>Industry Connections</strong>Connect with top recruiters</span></div>
+            <div className="signup-benefit"><span className="signup-benefit-icon is-teal"><UsersRound size={22} /></span><span><strong>Skill Verification</strong>Showcase your real-world skills</span></div>
+          </div>
+
         </div>
 
-        {/* Right side */}
-        <div className="p-8 sm:p-12">
-          <div className="mx-auto max-w-md">
+        <div className="signup-card">
+          <div className="signup-card-heading">
+            <h2>Create your SkillNet account</h2>
+            <p>Begin your journey toward an industry-ready future.</p>
+          </div>
 
-            <h2 className="text-3xl font-bold text-slate-900">
-              Create your account
-            </h2>
+          <form onSubmit={handleSubmit} className="signup-form">
+            <div className="signup-field">
+              <label htmlFor="full_name">Full Name</label>
+              <input
+                id="full_name"
+                name="full_name"
+                type="text"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
 
-            <p className="mt-2 text-slate-500">
-              Join SkillNet and start your skill development journey.
-            </p>
+            <div className="signup-field">
+              <label htmlFor="email">Email Address</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
 
-            <form
-              onSubmit={handleSubmit}
-              className="mt-8 space-y-5"
-            >
+            <div className="signup-field">
+              <label htmlFor="password">Password</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Create a password"
+                required
+                minLength={8}
+              />
+            </div>
 
-              {/* Full Name */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  Full Name
-                </label>
+            <div className="signup-field">
+              <label htmlFor="college">College / Institution</label>
+              <input
+                id="college"
+                name="college"
+                type="text"
+                placeholder="Enter your college name"
+                required
+              />
+            </div>
 
+            <div className="signup-row">
+              <div className="signup-field">
+                <label htmlFor="course">Course</label>
                 <input
-                  name="full_name"
-                  type="text"
-                  placeholder="Enter your full name"
-                  required
-                  className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-
-              {/* Email */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  Email Address
-                </label>
-
-                <input
-                  name="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  required
-                  className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-
-              {/* Password */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  Password
-                </label>
-
-                <input
-                  name="password"
-                  type="password"
-                  placeholder="Create a password"
-                  required
-                  minLength="8"
-                  className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-
-              {/* College */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  College / Institution
-                </label>
-
-                <input
-                  name="college"
-                  type="text"
-                  placeholder="Enter your college name"
-                  required
-                  className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                />
-              </div>
-
-              {/* Course */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  Course
-                </label>
-
-                <input
+                  id="course"
                   name="course"
                   type="text"
                   placeholder="e.g. AI & Data Science"
                   required
-                  className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
 
-              {/* Year */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
-                  Year of Study
-                </label>
-
+              <div className="signup-field">
+                <label htmlFor="year_of_study">Year of Study</label>
                 <select
+                  id="year_of_study"
                   name="year_of_study"
                   defaultValue=""
                   required
-                  className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                 >
                   <option value="" disabled>
                     Select your year
                   </option>
-
                   <option value="1">1st Year</option>
                   <option value="2">2nd Year</option>
                   <option value="3">3rd Year</option>
                   <option value="4">4th Year</option>
                 </select>
               </div>
-
-              {/* Terms */}
-              <div className="flex items-start gap-2">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  required
-                  className="mt-1 h-4 w-4"
-                />
-
-                <label
-                  htmlFor="terms"
-                  className="text-sm leading-5 text-slate-600"
-                >
-                  I agree to the SkillNet terms and conditions.
-                </label>
-              </div>
-
-              {/* Message */}
-              {message && (
-                <div className="rounded-lg bg-slate-100 p-3 text-sm text-slate-700">
-                  {message}
-                </div>
-              )}
-
-              {/* Create Account */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {loading ? "Creating Account..." : "Create Account"}
-              </button>
-
-            </form>
-
-            <p className="mt-8 text-center text-sm text-slate-500">
-              Already have an account?{" "}
-              <a
-                href="/login"
-                className="font-semibold text-blue-600 hover:text-blue-700"
-              >
-                Sign in
-              </a>
-            </p>
-
-            <div className="mt-6 text-center">
-              <a
-                href="/"
-                className="text-sm font-medium text-slate-500 hover:text-blue-600"
-              >
-                ← Back to SkillNet
-              </a>
             </div>
 
-          </div>
+            <label className="signup-terms">
+              <input type="checkbox" id="terms" required />
+              <span className="signup-check" />
+              <span>I agree to the SkillNet terms and conditions.</span>
+            </label>
+
+            {message && <div className="signup-message">{message}</div>}
+
+            <button type="submit" disabled={loading} className="signup-submit">
+              <span>{loading ? "Creating Account..." : "Create Account"}</span>
+              {!loading && <ArrowRight size={20} strokeWidth={2.2} />}
+            </button>
+          </form>
+
+          <p className="signup-signin">
+            Already have an account? <Link href="/login">Sign in</Link>
+          </p>
+          <p className="signup-security"><ShieldCheck size={17} /> Your data is protected with enterprise-grade security</p>
         </div>
-      </div>
+      </section>
     </main>
   );
 }
