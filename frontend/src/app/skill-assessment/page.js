@@ -2,6 +2,108 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import "./assessment.css";
+
+/* =========================================================
+   ICONS
+========================================================= */
+
+function ClipboardIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="5" y="4" width="14" height="17" rx="2" />
+      <path d="M9 4.5V3h6v1.5" />
+      <path d="m8 12 2 2 5-5" />
+      <path d="M8 17h7" />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7v5l3 2" />
+    </svg>
+  );
+}
+
+function ArrowLeftIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M19 12H5" />
+      <path d="m11 6-6 6 6 6" />
+    </svg>
+  );
+}
+
+function ArrowRightIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 12h14" />
+      <path d="m13 6 6 6-6 6" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="m5 12 4 4 10-10" />
+    </svg>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3 20 6v5c0 5.2-3.2 8.4-8 10-4.8-1.6-8-4.8-8-10V6l8-3Z" />
+      <path d="m8.5 12 2.2 2.2 4.8-5" />
+    </svg>
+  );
+}
+
+function SparkleIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="m12 2 1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6L12 2Z" />
+      <path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z" />
+    </svg>
+  );
+}
+
+/* =========================================================
+   SKILL JOURNEY
+========================================================= */
+
+function JourneyStep({
+  label,
+  number,
+  completed,
+  active,
+}) {
+  return (
+    <div
+      className={`journey-step ${
+        completed ? "completed" : ""
+      } ${active ? "active" : ""}`}
+    >
+      <div className="journey-circle">
+        {completed ? (
+          <CheckIcon />
+        ) : (
+          <span>{number}</span>
+        )}
+      </div>
+
+      <span className="journey-label">{label}</span>
+    </div>
+  );
+}
+
+/* =========================================================
+   MAIN PAGE
+========================================================= */
 
 export default function AssessmentPage() {
   const router = useRouter();
@@ -9,7 +111,8 @@ export default function AssessmentPage() {
   const [questions, setQuestions] = useState([]);
   const [roleName, setRoleName] = useState("");
 
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentQuestion, setCurrentQuestion] =
+    useState(0);
 
   const [answers, setAnswers] = useState({});
 
@@ -17,9 +120,9 @@ export default function AssessmentPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  // =====================================================
-  // LOAD QUESTIONS
-  // =====================================================
+  /* =====================================================
+     LOAD QUESTIONS
+  ===================================================== */
 
   useEffect(() => {
     async function loadQuestions() {
@@ -35,13 +138,12 @@ export default function AssessmentPage() {
             data.message ||
               "Unable to load assessment."
           );
+
           return;
         }
 
         setQuestions(data.questions || []);
 
-        // Your API may return role_id instead of role name.
-        // We keep this safe in case role is available.
         setRoleName(
           data.role ||
             data.role_name ||
@@ -64,9 +166,9 @@ export default function AssessmentPage() {
     loadQuestions();
   }, []);
 
-  // =====================================================
-  // SELECT ANSWER
-  // =====================================================
+  /* =====================================================
+     SELECT ANSWER
+  ===================================================== */
 
   function handleAnswer(option) {
     const question =
@@ -82,9 +184,9 @@ export default function AssessmentPage() {
     }));
   }
 
-  // =====================================================
-  // NEXT QUESTION
-  // =====================================================
+  /* =====================================================
+     NEXT QUESTION
+  ===================================================== */
 
   function handleNext() {
     const question =
@@ -108,9 +210,9 @@ export default function AssessmentPage() {
     }
   }
 
-  // =====================================================
-  // PREVIOUS QUESTION
-  // =====================================================
+  /* =====================================================
+     PREVIOUS QUESTION
+  ===================================================== */
 
   function handlePrevious() {
     if (currentQuestion > 0) {
@@ -120,9 +222,9 @@ export default function AssessmentPage() {
     }
   }
 
-  // =====================================================
-  // FINISH ASSESSMENT
-  // =====================================================
+  /* =====================================================
+     FINISH ASSESSMENT
+  ===================================================== */
 
   async function handleFinish() {
     const question =
@@ -136,10 +238,6 @@ export default function AssessmentPage() {
       return;
     }
 
-    // -------------------------------------------------
-    // Make sure ALL questions have been answered
-    // -------------------------------------------------
-
     if (
       Object.keys(answers).length !==
       questions.length
@@ -147,16 +245,13 @@ export default function AssessmentPage() {
       alert(
         "Please answer all questions before finishing the assessment."
       );
+
       return;
     }
 
     try {
       setSubmitting(true);
       setError("");
-
-      // -------------------------------------------------
-      // SUBMIT ANSWERS
-      // -------------------------------------------------
 
       const response = await fetch(
         "/api/assessment/submit",
@@ -178,10 +273,6 @@ export default function AssessmentPage() {
         data
       );
 
-      // -------------------------------------------------
-      // HANDLE API ERROR
-      // -------------------------------------------------
-
       if (!response.ok || !data.success) {
         setError(
           data.message ||
@@ -190,10 +281,6 @@ export default function AssessmentPage() {
 
         return;
       }
-
-      // -------------------------------------------------
-      // CHECK RESULT
-      // -------------------------------------------------
 
       if (!data.result) {
         console.error(
@@ -208,10 +295,6 @@ export default function AssessmentPage() {
         return;
       }
 
-      // -------------------------------------------------
-      // SAVE RESULT
-      // -------------------------------------------------
-
       sessionStorage.setItem(
         "assessment_result",
         JSON.stringify(data.result)
@@ -222,12 +305,7 @@ export default function AssessmentPage() {
         data.result
       );
 
-      // -------------------------------------------------
-      // GO TO RESULT PAGE
-      // -------------------------------------------------
-
       router.push("/assessment/result");
-
     } catch (error) {
       console.error(
         "Assessment submission error:",
@@ -242,92 +320,98 @@ export default function AssessmentPage() {
     }
   }
 
-  // =====================================================
-  // LOADING
-  // =====================================================
+  /* =====================================================
+     LOADING
+  ===================================================== */
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50">
-        <p className="text-slate-600">
-          Loading assessment...
-        </p>
+      <main className="assessment-page loading-screen">
+        <div className="loading-content">
+          <div className="loading-orb">
+            <div />
+          </div>
+
+          <p>
+            Preparing your skill assessment...
+          </p>
+        </div>
       </main>
     );
   }
 
-  // =====================================================
-  // ERROR
-  // =====================================================
+  /* =====================================================
+     ERROR
+  ===================================================== */
 
   if (error && questions.length === 0) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
+      <main className="assessment-page">
+        <Background />
 
-        <div className="w-full max-w-lg rounded-2xl border bg-white p-8 text-center shadow-sm">
+        <div className="error-screen">
+          <div className="error-card">
+            <div className="error-icon">!</div>
 
-          <h1 className="text-xl font-bold text-slate-900">
-            Unable to start assessment
-          </h1>
+            <h1>
+              Unable to start assessment
+            </h1>
 
-          <p className="mt-3 text-sm text-slate-600">
-            {error}
-          </p>
+            <p>{error}</p>
 
-          <button
-            type="button"
-            onClick={() =>
-              router.push("/skills")
-            }
-            className="mt-6 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700"
-          >
-            Back to Skills
-          </button>
-
+            <button
+              type="button"
+              onClick={() =>
+                router.push("/skills")
+              }
+            >
+              Back to Skills
+            </button>
+          </div>
         </div>
-
       </main>
     );
   }
 
-  // =====================================================
-  // NO QUESTIONS
-  // =====================================================
+  /* =====================================================
+     NO QUESTIONS
+  ===================================================== */
 
   if (questions.length === 0) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
+      <main className="assessment-page">
+        <Background />
 
-        <div className="w-full max-w-lg rounded-2xl border bg-white p-8 text-center shadow-sm">
+        <div className="error-screen">
+          <div className="error-card">
+            <div className="error-icon">?</div>
 
-          <h1 className="text-xl font-bold text-slate-900">
-            No assessment questions available
-          </h1>
+            <h1>
+              No assessment questions available
+            </h1>
 
-          <p className="mt-3 text-sm text-slate-600">
-            There are currently no questions
-            available for your selected skills.
-          </p>
+            <p>
+              There are currently no questions
+              available for your selected skills.
+            </p>
 
-          <button
-            type="button"
-            onClick={() =>
-              router.push("/skills")
-            }
-            className="mt-6 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700"
-          >
-            Back to Skills
-          </button>
-
+            <button
+              type="button"
+              onClick={() =>
+                router.push("/skills")
+              }
+            >
+              Back to Skills
+            </button>
+          </div>
         </div>
-
       </main>
     );
   }
 
-  // =====================================================
-  // CURRENT QUESTION
-  // =====================================================
+  /* =====================================================
+     CURRENT QUESTION
+  ===================================================== */
 
   const question =
     questions[currentQuestion];
@@ -340,255 +424,363 @@ export default function AssessmentPage() {
       questions.length) *
     100;
 
-  // =====================================================
-  // PAGE
-  // =====================================================
+  const isLastQuestion =
+    currentQuestion ===
+    questions.length - 1;
+
+  const options = [
+    ["A", question.option_a],
+    ["B", question.option_b],
+    ["C", question.option_c],
+    ["D", question.option_d],
+  ];
+
+  /* =====================================================
+     PAGE
+  ===================================================== */
 
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="assessment-page">
+      <Background />
 
       {/* =================================================
           HEADER
       ================================================= */}
 
-      <header className="border-b bg-white">
+      <header className="assessment-header">
+        <button
+          type="button"
+          className="assessment-logo"
+          onClick={() =>
+            router.push("/dashboard")
+          }
+        >
+          <span>Skill</span>
+          <strong>Net</strong>
+        </button>
 
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
+        <div className="journey-wrapper">
+          <div className="journey-title">
+            YOUR SKILL JOURNEY
+          </div>
 
-          <button
-            type="button"
-            onClick={() =>
-              router.push("/dashboard")
-            }
-            className="text-2xl font-bold text-blue-600"
-          >
-            SkillNet
-          </button>
+          <div className="journey-track">
+            <div className="journey-line">
+              <span className="journey-progress" />
+            </div>
 
-          <span className="text-sm text-slate-500">
-            Skill Assessment
-          </span>
+            <JourneyStep
+              number="1"
+              label="Profile"
+              completed
+            />
 
+            <JourneyStep
+              number="2"
+              label="Career"
+              completed
+            />
+
+            <JourneyStep
+              number="3"
+              label="Skills"
+              completed
+            />
+
+            <JourneyStep
+              number="4"
+              label="Assessment"
+              active
+            />
+          </div>
         </div>
 
+        <div className="header-status">
+          <span className="status-dot" />
+          Skills Assessment
+        </div>
       </header>
 
       {/* =================================================
-          MAIN
+          MAIN CENTER
       ================================================= */}
 
-      <section className="mx-auto max-w-3xl px-6 py-10">
-
-        {/* ROLE */}
-
-        <div className="mb-6">
-
-          <p className="text-sm font-semibold text-blue-600">
-            ASSESSMENT
-          </p>
-
-          <h1 className="mt-2 text-3xl font-bold text-slate-900">
-            {roleName} Skill Assessment
-          </h1>
-
-          <p className="mt-2 text-slate-600">
-            Answer each question based on what
-            you currently know.
-          </p>
-
-        </div>
-
-        {/* =================================================
-            ERROR DURING SUBMISSION
-        ================================================= */}
-
-        {error && (
-          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4">
-
-            <p className="text-sm font-medium text-red-700">
-              {error}
-            </p>
-
-          </div>
-        )}
-
-        {/* =================================================
-            PROGRESS
-        ================================================= */}
-
-        <div className="mb-6">
-
-          <div className="mb-2 flex items-center justify-between text-sm">
-
-            <span className="font-medium text-slate-700">
-              Question {currentQuestion + 1} of{" "}
-              {questions.length}
-            </span>
-
-            <span className="text-slate-500">
-              {Math.round(progress)}%
-            </span>
-
-          </div>
-
-          <div className="h-2 overflow-hidden rounded-full bg-slate-200">
-
-            <div
-              className="h-full rounded-full bg-blue-600 transition-all"
-              style={{
-                width: `${progress}%`,
-              }}
-            />
-
-          </div>
-
-        </div>
-
-        {/* =================================================
-            QUESTION CARD
-        ================================================= */}
-
-        <section className="rounded-2xl border bg-white p-6 shadow-sm">
-
-          {/* Skill + Difficulty */}
-
-          <div className="mb-5 flex flex-wrap gap-2">
-
-            <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-              {question.skill_name}
-            </span>
-
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-              {question.difficulty}
-            </span>
-
-          </div>
-
-          {/* Question */}
-
-          <h2 className="text-lg font-semibold leading-7 text-slate-900">
-            {question.question_text}
-          </h2>
-
-          {/* Concepts */}
-
-          {question.concepts_tested &&
-            question.concepts_tested.length > 0 && (
-              <p className="mt-3 text-xs text-slate-500">
-                Concepts tested:{" "}
-                {question.concepts_tested.join(
-                  ", "
-                )}
-              </p>
-            )}
-
+      <section className="assessment-wrapper">
+        <div className="assessment-card">
           {/* =================================================
-              OPTIONS
+              CARD TOP
           ================================================= */}
 
-          <div className="mt-7 space-y-3">
+          <div className="assessment-top">
+            <div className="assessment-role">
+              <div className="assessment-icon">
+                <ClipboardIcon />
+              </div>
 
-            {[
-              ["A", question.option_a],
-              ["B", question.option_b],
-              ["C", question.option_c],
-              ["D", question.option_d],
-            ].map(([letter, text]) => {
+              <div>
+                <span>
+                  Assessment for:
+                </span>
 
-              const isSelected =
-                selectedAnswer === letter;
+                <strong>
+                  {roleName}
+                </strong>
+              </div>
+            </div>
 
-              return (
-                <button
-                  key={letter}
-                  type="button"
-                  onClick={() =>
-                    handleAnswer(letter)
-                  }
-                  className={`flex w-full items-start gap-4 rounded-xl border p-4 text-left transition ${
-                    isSelected
-                      ? "border-blue-600 bg-blue-50"
-                      : "border-slate-200 bg-white hover:border-blue-300 hover:bg-slate-50"
-                  }`}
-                >
-
-                  <span
-                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-                      isSelected
-                        ? "bg-blue-600 text-white"
-                        : "bg-slate-100 text-slate-700"
-                    }`}
-                  >
-                    {letter}
-                  </span>
-
-                  <span className="pt-1 text-sm leading-6 text-slate-700">
-                    {text}
-                  </span>
-
-                </button>
-              );
-            })}
-
+            <div className="timer">
+              <ClockIcon />
+              <span>09:45</span>
+            </div>
           </div>
 
-        </section>
+          {/* =================================================
+              QUESTION PROGRESS
+          ================================================= */}
 
-        {/* =================================================
-            NAVIGATION
-        ================================================= */}
+          <div className="question-progress">
+            <div className="progress-heading">
+              <span>
+                Question {currentQuestion + 1} of{" "}
+                {questions.length}
+              </span>
 
-        <div className="mt-6 flex items-center justify-between">
+              <strong>
+                {Math.round(progress)}%
+              </strong>
+            </div>
 
-          <button
-            type="button"
-            onClick={handlePrevious}
-            disabled={
-              currentQuestion === 0 ||
-              submitting
-            }
-            className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+            <div className="progress-track">
+              <div
+                className="progress-value"
+                style={{
+                  width: `${progress}%`,
+                }}
+              />
+            </div>
+          </div>
+
+          {/* =================================================
+              QUESTION
+          ================================================= */}
+
+          <div
+            className="question-content"
+            key={question.question_id}
           >
-            Previous
-          </button>
+            <div className="question-meta">
+              <span className="skill-badge">
+                {question.skill_name}
+              </span>
 
-          {currentQuestion <
-          questions.length - 1 ? (
+              <span className="difficulty-badge">
+                {question.difficulty}
+              </span>
+            </div>
 
-            <button
-              type="button"
-              onClick={handleNext}
-              disabled={
-                !selectedAnswer ||
-                submitting
-              }
-              className="rounded-xl bg-blue-600 px-7 py-3 font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              Next
-            </button>
+            <h1>
+              {question.question_text}
+            </h1>
 
-          ) : (
+            <p className="question-helper">
+              Select the option that best
+              describes you.
+            </p>
 
-            <button
-              type="button"
-              onClick={handleFinish}
-              disabled={
-                !selectedAnswer ||
-                submitting
-              }
-              className="rounded-xl bg-green-600 px-7 py-3 font-semibold text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {submitting
-                ? "Submitting..."
-                : "Finish Assessment"}
-            </button>
+            {question.concepts_tested &&
+              question.concepts_tested.length >
+                0 && (
+                <p className="concepts">
+                  Concepts tested:{" "}
+                  {question.concepts_tested.join(
+                    ", "
+                  )}
+                </p>
+              )}
 
+            {/* =================================================
+                OPTIONS
+            ================================================= */}
+
+            <div className="answer-list">
+              {options.map(
+                ([letter, text], index) => {
+                  const isSelected =
+                    selectedAnswer === letter;
+
+                  return (
+                    <button
+                      key={letter}
+                      type="button"
+                      className={`answer-option ${
+                        isSelected
+                          ? "selected"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handleAnswer(letter)
+                      }
+                      style={{
+                        "--option-index":
+                          index,
+                      }}
+                    >
+                      <span className="answer-letter">
+                        {letter}
+                      </span>
+
+                      <span className="answer-text">
+                        {text}
+                      </span>
+
+                      <span className="answer-radio">
+                        {isSelected && (
+                          <span className="radio-dot" />
+                        )}
+                      </span>
+                    </button>
+                  );
+                }
+              )}
+            </div>
+          </div>
+
+          {/* =================================================
+              ERROR
+          ================================================= */}
+
+          {error && (
+            <div className="inline-error">
+              <span>!</span>
+              {error}
+            </div>
           )}
 
+          {/* =================================================
+              CARD FOOTER
+          ================================================= */}
+
+          <div className="assessment-footer">
+            <button
+              type="button"
+              className="previous-button"
+              onClick={handlePrevious}
+              disabled={
+                currentQuestion === 0 ||
+                submitting
+              }
+            >
+              <ArrowLeftIcon />
+              <span>Previous</span>
+            </button>
+
+            <div className="saved-message">
+              <ShieldIcon />
+
+              <span>
+                Responses saved
+                <br className="mobile-break" />
+                automatically
+              </span>
+            </div>
+
+            {isLastQuestion ? (
+              <button
+                type="button"
+                className="next-button finish-button"
+                onClick={handleFinish}
+                disabled={
+                  !selectedAnswer ||
+                  submitting
+                }
+              >
+                <span>
+                  {submitting
+                    ? "Submitting..."
+                    : "Finish Assessment"}
+                </span>
+
+                {!submitting && (
+                  <ArrowRightIcon />
+                )}
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="next-button"
+                onClick={handleNext}
+                disabled={
+                  !selectedAnswer ||
+                  submitting
+                }
+              >
+                <span>Next Question</span>
+                <ArrowRightIcon />
+              </button>
+            )}
+          </div>
         </div>
 
-      </section>
+        {/* =================================================
+            BOTTOM HINT
+        ================================================= */}
 
+        <div className="assessment-hint">
+          <SparkleIcon />
+
+          <span>
+            Take your time. There&apos;s no rush!
+          </span>
+        </div>
+      </section>
     </main>
+  );
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+function Background() {
+  return (
+    <>
+      <div className="background-grid" />
+
+      <div className="background-glow glow-left" />
+      <div className="background-glow glow-right" />
+      <div className="background-glow glow-top" />
+
+      <div className="orbit orbit-left orbit-a" />
+      <div className="orbit orbit-left orbit-b" />
+      <div className="orbit orbit-left orbit-c" />
+
+      <div className="orbit orbit-right orbit-d" />
+      <div className="orbit orbit-right orbit-e" />
+      <div className="orbit orbit-right orbit-f" />
+
+      <div className="planet planet-left">
+        <span />
+      </div>
+
+      <div className="planet planet-right">
+        <span />
+      </div>
+
+      <div className="particle p1" />
+      <div className="particle p2" />
+      <div className="particle p3" />
+      <div className="particle p4" />
+      <div className="particle p5" />
+      <div className="particle p6" />
+      <div className="particle p7" />
+      <div className="particle p8" />
+
+      <div className="star s1">✦</div>
+      <div className="star s2">✦</div>
+      <div className="star s3">•</div>
+      <div className="star s4">•</div>
+      <div className="star s5">✦</div>
+      <div className="star s6">✦</div>
+    </>
   );
 }
