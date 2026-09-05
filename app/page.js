@@ -374,9 +374,7 @@ export default function Home() {
             <a href="/login" className="login-btn">
               Login
             </a>
-           <a href="/signup" className="get-started-btn">
-           Get Started
-          </a>
+            <button className="get-started-btn">Get Started</button>
           </div>
         </nav>
 
@@ -402,12 +400,10 @@ export default function Home() {
             </p>
 
             <div className="hero-buttons">
-              <a href="/signup" className="primary-btn">
+              <button className="primary-btn">
                 Start Your Journey <Icon name="arrow" size={18} />
-              </a>
-              <a href="#how-it-works" className="secondary-btn">
-                Explore SkillNet
-              </a>
+              </button>
+              <button className="secondary-btn">Explore SkillNet</button>
             </div>
           </div>
 
@@ -537,9 +533,9 @@ export default function Home() {
                 skills, creating connections, and achieving your goals.
               </p>
             </div>
-            <a href="/signup" className="cta-button">
+            <button className="cta-button">
               Get Started Now <Icon name="arrow" size={18} />
-            </a>
+            </button>
           </div>
         </div>
       </section>
